@@ -10,16 +10,17 @@
 <body>
   <!-- partial:index.partial.html -->
   <div style="border: solid 1px #ccc; padding: 10px; text-align: center;">
-    <video id="video" width="320" controls="true">
-      <source
-        src="https://firebasestorage.googleapis.com/v0/b/fitbud-b5c08.appspot.com/o/exercise%2Fvideo%2Fa2457a7f-b7e9-4ac8-9191-62ff9df0632e.mp4?alt=media&token=a44e4995-7174-46a4-957b-bb06cdd4d766">
+    <video id="video" width="320" controls="true" crossorigin="anonymous">
+      <source src="https://audiomonkhub.s3.ap-south-1.amazonaws.com/video.webm">
       <!-- FireFox 3.5 -->
       <source src="movie.mp4"><!-- WebKit -->
       Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.
     </video><br />
     <button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br />
     <div id="output"
-      style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
+      style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;">
+
+    </div>
   </div>
   <!-- partial -->
   <script>
@@ -60,10 +61,27 @@
         window.open(this.toDataURL());
       };
       snapshots.unshift(canvas);
-      output.innerHTML = '';
+      document.getElementById("output").appendChild(canvas);
       for (var i = 0; i < 4; i++) {
-        output.appendChild(snapshots[i]);
+        //  output.appendChild(snapshots[i]);
+
       }
+      document.getElementsByTagName("canvas")[0].setAttribute("id", "canvas");
+      document.getElementsByTagName("canvas")[0].setAttribute("crossorigin", "anonymous");
+      var canvas = document.getElementById('canvas');
+
+      canvas.toBlob(function (blob) {
+        var newImg = document.createElement('img'),
+          url = URL.createObjectURL(blob);
+
+        newImg.onload = function () {
+          // no longer need to read the blob so it's revoked
+          URL.revokeObjectURL(url);
+        };
+        alert(url);
+        newImg.src = url;
+        document.body.appendChild(newImg);
+      });
     }
   </script>
 
