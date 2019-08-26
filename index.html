@@ -78,10 +78,24 @@
           // no longer need to read the blob so it's revoked
           URL.revokeObjectURL(url);
         };
-        alert(url);
+        //write image
         newImg.src = url;
         document.body.appendChild(newImg);
+
+        //convert into base64
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          var base64data = reader.result;
+          console.log(base64data);
+        }
+
       });
+
+
+
+
+
     }
   </script>
 
